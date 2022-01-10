@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Matyas_Sebastian_GameShop.Data;
 using Microsoft.EntityFrameworkCore;
+using Matyas_Sebastian_GameShop.Hubs;
 
 namespace Matyas_Sebastian_GameShop
 {
@@ -27,6 +28,7 @@ namespace Matyas_Sebastian_GameShop
         {
             services.AddControllersWithViews();
             services.AddDbContext<GameShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +56,7 @@ namespace Matyas_Sebastian_GameShop
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }
