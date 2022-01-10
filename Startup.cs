@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Matyas_Sebastian_GameShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Matyas_Sebastian_GameShop.Hubs;
+using Microsoft.AspNetCore.Identity;
 
 namespace Matyas_Sebastian_GameShop
 {
@@ -29,6 +30,19 @@ namespace Matyas_Sebastian_GameShop
             services.AddControllersWithViews();
             services.AddDbContext<GameShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSignalR();
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Default Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.AllowedForNewUsers = true;
+
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 7;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +63,7 @@ namespace Matyas_Sebastian_GameShop
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -57,6 +72,7 @@ namespace Matyas_Sebastian_GameShop
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHub<ChatHub>("/chathub");
+                endpoints.MapRazorPages();
             });
         }
     }
