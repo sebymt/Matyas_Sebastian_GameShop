@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Matyas_Sebastian_GameShop.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Gamer")]
     public class GamesController : Controller
     {
         private readonly GameShopContext _context;
