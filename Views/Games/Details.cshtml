@@ -32,7 +32,7 @@
             @Html.DisplayNameFor(model => model.Logo)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Logo)
+            <img src='@Html.DisplayFor(model => model.Logo)' width="100" />
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Orders)
@@ -40,7 +40,7 @@
         <dd class="col-sm-10">
             <table class="table">
                 <tr>
-                    <th>Customer</th>
+                    <th>Player</th>
                     <th>Order Date</th>
                 </tr>
                 @foreach (var item in Model.Orders)
