@@ -46,8 +46,8 @@ namespace Matyas_Sebastian_GameShop
                 options.Password.RequiredLength = 7;
             });
             services.AddAuthorization(opts => {
-                opts.AddPolicy("SalesManager", policy => {
-                    policy.RequireRole("Manager");
+                opts.AddPolicy("SalesEmployee", policy => {
+                    policy.RequireRole("Employee");
                     policy.RequireClaim("Department", "Sales");
                 });
             });

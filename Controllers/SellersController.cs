@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Matyas_Sebastian_GameShop.Controllers
 {
-    [Authorize(Policy = "OnlySales")]
+    [Authorize(Policy = "SalesEmployee")]
     public class SellersController : Controller
     {
         private readonly GameShopContext _context;

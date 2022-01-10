@@ -67,7 +67,7 @@ namespace Matyas_Sebastian_GameShop.Controllers
                     games = games.OrderBy(b => b.Name);
                     break;
             }
-            int pageSize = 2;
+            int pageSize = 4;
             return View(await PaginatedList<Game>.CreateAsync(games.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
