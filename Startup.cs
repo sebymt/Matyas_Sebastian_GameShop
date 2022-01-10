@@ -30,6 +30,8 @@ namespace Matyas_Sebastian_GameShop
             services.AddControllersWithViews();
             services.AddDbContext<GameShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSignalR();
+            services.AddRazorPages();
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Default Lockout settings.
@@ -42,6 +44,16 @@ namespace Matyas_Sebastian_GameShop
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 7;
+            });
+            services.AddAuthorization(opts => {
+                opts.AddPolicy("SalesManager", policy => {
+                    policy.RequireRole("Manager");
+                    policy.RequireClaim("Department", "Sales");
+                });
+            });
+            services.ConfigureApplicationCookie(opts =>
+            {
+                opts.AccessDeniedPath = "/Identity/Account/AccessDenied";
             });
         }
 

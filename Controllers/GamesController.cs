@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Matyas_Sebastian_GameShop.Data;
 using Matyas_Sebastian_GameShop.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Matyas_Sebastian_GameShop.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class GamesController : Controller
     {
         private readonly GameShopContext _context;
@@ -20,6 +22,7 @@ namespace Matyas_Sebastian_GameShop.Controllers
         }
 
         // GET: Games
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
@@ -69,6 +72,7 @@ namespace Matyas_Sebastian_GameShop.Controllers
         }
 
         // GET: Games/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
