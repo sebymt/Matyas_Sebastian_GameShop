@@ -6,16 +6,32 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Matyas_Sebastian_GameShop.Data;
+using Matyas_Sebastian_GameShop.Models.GameShopViewModels;
+
 
 namespace Matyas_Sebastian_GameShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly GameShopContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(GameShopContext context)
         {
-            _logger = logger;
+            _context = context;
+        }
+        public async Task<ActionResult> Statistics()
+        {
+            IQueryable<OrderGroup> data =
+            from order in _context.Orders
+            group order by order.OrderDate into dateGroup
+            select new OrderGroup()
+            {
+                OrderDate = dateGroup.Key,
+                GameCount = dateGroup.Count()
+            };
+            return View(await data.AsNoTracking().ToListAsync());
         }
 
         public IActionResult Index()
